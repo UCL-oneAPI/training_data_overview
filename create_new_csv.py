@@ -3,7 +3,7 @@ import csv
 
 def create_csv():
     with open('warnings_data.csv', 'w', newline='') as csvfile:
-        fieldnames = ['warning_code', 'project_name', 'file_path']
+        fieldnames = ['warning_code', 'project_name', 'file_path', 'line_in_file']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
