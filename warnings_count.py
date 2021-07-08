@@ -8,6 +8,8 @@ Paths to sample files are:
     "sample_files/project1/main.dp.cpp"
     "sample_files/bpnn/bpnn_layerforward.h"
     "sample_files/project1/simpleAtomicIntrinsics_kernel.dp.hpp"
+    
+But this can be done for any other file as well.
 '''
 
 
