@@ -1,0 +1,10 @@
+warning_code,project_name,file_path
+DPCT1003,first_project,first_project/main.cpp
+DPCT1009,first_project,first_project/main.cpp
+DPCT1010,first_project,first_project/main.cpp
+DPCT1003,second_project,second_project/main.cpp
+DPCT1009,second_project,second_project/main.cpp
+DPCT1010,second_project,second_project/main.cpp
+DPCT1003,third_project,third_project/third.cpp
+DPCT1009,third_project,third_project/third.cpp
+DPCT1010,third_project,third_project/third.cpp
