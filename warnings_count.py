@@ -1,34 +1,55 @@
 import csv
+import re
 import sys
+
+'''
+Run this command with e.g. $ python warnings_count.py "sample_files/project1/main.dp.cpp"
+Paths to sample files are:
+    "sample_files/project1/main.dp.cpp"
+    "sample_files/bpnn/bpnn_layerforward.h"
+    "sample_files/project1/simpleAtomicIntrinsics_kernel.dp.hpp"
+'''
 
 
 def find_warnings(file_path):
-    code_str = get_file_str(file_path)
-    warnings = extract_warnings(code_str)
-    add_to_csv(warnings, file_path)
+    warnings_at_lines = extract_warnings(file_path)
+    add_to_csv(warnings_at_lines, file_path)
 
 
-def get_file_str(file_path: str) -> str:
-    return "this is fake data: DPCT1003:xx and DPCT1009:frr plus DPCT1010"
+def extract_warnings(file_path: str) -> list:
+    warnings_at_lines = []
+    with open(file_path, "r") as f:
+        code_lines_strings = f.readlines()
+        pattern = ".*(DPCT\d{4}):\d+: "
 
+        for i in range(len(code_lines_strings)):
+            code_line = code_lines_strings[i]
+            result = re.search(pattern, code_line)
+            if result:
+                warning_code = result.group(1)
+                warnings_at_lines.append((warning_code, i + 1))
 
-def extract_warnings(code_str: str) -> list:
-    return ["DPCT1003", "DPCT1009", "DPCT1010"]
+    return warnings_at_lines
 
 
 def add_to_csv(warnings: list, file_path: str):
-    project_name = file_path.split('/')[0]
+    project_name = get_project_name(file_path)
     with open('warnings_data.csv', 'a') as f:
         for warning in warnings:
-            # fields = {"warning_code": warning,
-            #           "project_name": project_name,
-            #           "file_path": file_path}
-            fields = [warning, project_name, file_path]
+            warning_code = warning[0]
+            line_in_file = warning[1]
+            fields = [warning_code, project_name, file_path, line_in_file]
             writer = csv.writer(f)
             writer.writerow(fields)
 
 
+def get_project_name(file_path: str):
+    path_splits = file_path.split('/')
+    if path_splits[0] == "sample_files":
+        return path_splits[1]
+    else:
+        return path_splits[0]
+
+
 if __name__ == "__main__":
-    # create_csv(sys.argv[1:])
     find_warnings(sys.argv[1])
-    # find_warnings('other_project/main.cpp')
