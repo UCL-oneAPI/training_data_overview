@@ -50,7 +50,10 @@ def get_project_name(file_path: str):
     if path_splits[0] == "sample_files":
         return path_splits[1]
     else:
-        return path_splits[0]
+        for i in range(len(path_splits)):
+            if path_splits[i] == "oneAPI-DirectProgramming-training":
+                return path_splits[i+1]
+        raise Exception('Folder "oneAPI-DirectProgramming-training" not found.')
 
 
 if __name__ == "__main__":
