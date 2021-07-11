@@ -1,5 +1,6 @@
+cd ..
 parent_dir=$(cd $(dirname $0); pwd)
-cd scripts_output
+cd oneAPI-DirectProgramming-training
 mkdir $1
 cd ../oneAPI-DirectProgramming
 source /opt/intel/oneapi/setvars.sh
@@ -16,7 +17,7 @@ if [ -d $1"/"$file ]
     else
         if [ "${file##*.}"x = "cu"x ];then
             # dpct --in-root=. $file --out-root=${current_dir}/dpcpp
-            dpct --in-root=. $file --out-root=${2}/scripts_output/${3}/dpcpp
+            dpct --in-root=. $file --out-root=${2}/oneAPI-DirectProgramming-training/${3}/dpcpp
             # echo /${2}/scripts_output/${3}/dpcpp
         fi
 fi
@@ -30,32 +31,23 @@ x=$(find . -name "*.cu")
 workdir=$(cd $(dirname $0); pwd)
 if [ -d "dpcpp" ];then
     echo "this project has been translated"
-else
-    # echo "no folder"
-    # for i in $x;do 
-    #     # echo "$i"
-    #     dpct --in-root=. $i --out-root=dpcpp
-    # done
-    
+else    
     read_dir $workdir $parent_dir $1
 fi
 
-# cd $workdir
-# testPath=../${1}-dpct
-# if [[ ! -d "$testPath" ]]; then
-#     echo "the dpct folder is not existed"
-# else
-#     cp -rvf ../${1}-dpct dpct-version
-# fi
 
-cd $parent_dir/scripts_output/${1}
-cp -rvf ../../oneAPI-DirectProgramming/${1}-dpct dpct-version
-# testPath=../${1}-dpct
-# if [[ ! -d "$testPath" ]]; then
-#     echo "the dpct folder is not existed"
-# else
-#     cp -rvf ../${1}-dpct dpct-version
-# fi
+echo -------------------------------
+cd $parent_dir/oneAPI-DirectProgramming-training/${1}
+cd dpcpp
+path_prefix=$(cd $(dirname $0); pwd)
+echo $path_prefix
+dpcpp_collection=$(find . -name "*.dp.cpp")
+for file in $dpcpp_collection;do
+    file=${file#*/}
+    python3 $parent_dir/warnings_count.py $path_prefix/$file
+done
+cp -rvf ../../../oneAPI-DirectProgramming/${1}-dpct ../dpct-version
+
 
 
 cd $root_dir
