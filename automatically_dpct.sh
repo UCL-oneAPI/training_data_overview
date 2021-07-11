@@ -2,6 +2,7 @@
 cd ..
 rootdir=$(cd $(dirname $0); pwd)
 source /opt/intel/oneapi/setvars.sh
+mkdir oneAPI-DirectProgramming-training
 cd oneAPI-DirectProgramming
 x=$(find . -name "*-cuda")
 for folder in $x;do
