@@ -44,7 +44,8 @@ echo $path_prefix
 dpcpp_collection=$(find . -name "*.dp.cpp")
 for file in $dpcpp_collection;do
     file=${file#*/}
-    python3 $parent_dir/warnings_count.py $path_prefix/$file
+    python3 $parent_dir/training_data_overview/warnings_count.py $path_prefix/$file
+    echo $path_prefix/$file
 done
 cp -rvf ../../../oneAPI-DirectProgramming/${1}-dpct ../dpct-version
 
