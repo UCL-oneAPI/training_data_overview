@@ -36,7 +36,9 @@ def extract_warnings(file_path: str) -> list:
 
 def add_to_csv(warnings: list, file_path: str):
     project_name = get_project_name(file_path)
-    with open('warnings_data.csv', 'a') as f:
+    csv_path = 'warnings_data.csv' if is_sample_file_path(file_path) \
+        else '../../../training_data_overview/warnings_data.csv'
+    with open(csv_path, 'a') as f:
         for warning in warnings:
             warning_code = warning[0]
             line_in_file = warning[1]
@@ -47,13 +49,20 @@ def add_to_csv(warnings: list, file_path: str):
 
 def get_project_name(file_path: str):
     path_splits = file_path.split('/')
-    if path_splits[0] == "sample_files":
+    if is_sample_file_path(file_path):
         return path_splits[1]
     else:
         for i in range(len(path_splits)):
             if path_splits[i] == "oneAPI-DirectProgramming-training":
-                return path_splits[i+1]
+                return path_splits[i + 1]
         raise Exception('Folder "oneAPI-DirectProgramming-training" not found.')
+
+
+def is_sample_file_path(file_path: str):
+    path_splits = file_path.split('/')
+    if path_splits[0] == "sample_files":
+        return True
+    return False
 
 
 if __name__ == "__main__":
