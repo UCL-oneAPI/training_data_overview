@@ -36,13 +36,14 @@ def extract_warnings(file_path: str) -> list:
 
 def add_to_csv(warnings: list, file_path: str):
     project_name = get_project_name(file_path)
+    local_path = file_path.split('oneAPI-DirectProgramming-training')[1]
     csv_path = 'warnings_data.csv' if is_sample_file_path(file_path) \
         else '../../../training_data_overview/warnings_data.csv'
     with open(csv_path, 'a') as f:
         for warning in warnings:
             warning_code = warning[0]
             line_in_file = warning[1]
-            fields = [warning_code, project_name, file_path, line_in_file]
+            fields = [warning_code, project_name, local_path, line_in_file]
             writer = csv.writer(f)
             writer.writerow(fields)
 
