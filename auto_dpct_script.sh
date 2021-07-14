@@ -11,13 +11,23 @@ function read_dir(){
 current_dir=$(cd $(dirname $0); pwd) 
 for file in `ls $1` 
 do
-if [ -d $1"/"$file ] 
+if [ -d $1"/"$file ]
     then
-        read_dir $1"/"$file
+        # read_dir $1"/"$file
+        new_path=$3/$file
+        read_dir $1/$file $2 ${new_path##/}/ $4
     else
         if [ "${file##*.}"x = "cu"x ];then
             # dpct --in-root=. $file --out-root=${current_dir}/dpcpp
-            dpct --in-root=. $file --out-root=${2}/oneAPI-DirectProgramming-training/${3}/dpcpp
+            # echo ${3##/}/
+            a=$3/$file
+            echo ${a##/} 
+            # echo ${2}/oneAPI-DirectProgramming-training/${4}/dpcpp/${3}
+            # echo ===
+            # cd ${2}/oneAPI-DirectProgramming-training/${4}
+            # pwd
+            # dpct --in-root=. $3/$file --out-root=${2}/oneAPI-DirectProgramming-training/${4}/dpcpp/
+            dpct --in-root=. ${a##/} --out-root=${2}/oneAPI-DirectProgramming-training/${4}/dpcpp/
             # echo /${2}/scripts_output/${3}/dpcpp
         fi
 fi
@@ -31,8 +41,12 @@ x=$(find . -name "*.cu")
 workdir=$(cd $(dirname $0); pwd)
 if [ -d "dpcpp" ];then
     echo "this project has been translated"
-else    
-    read_dir $workdir $parent_dir $1
+else
+    echo working: $workdir
+    echo parent: $parent_dir
+    echo 1:$1    
+    # read_dir $workdir $parent_dir $1 $1
+    read_dir $workdir $parent_dir "" $1
 fi
 
 
@@ -46,6 +60,7 @@ for file in $dpcpp_collection;do
     file=${file#*/}
     python3 $parent_dir/training_data_overview/warnings_count.py $path_prefix/$file
     echo $path_prefix/$file
+    
 done
 cp -rvf ../../../oneAPI-DirectProgramming/${1}-dpct ../dpct-version
 
