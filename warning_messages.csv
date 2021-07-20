@@ -1,0 +1,44 @@
+message_id,message
+1,"Consider replacing sycl::nd_item::barrier() with
+sycl::nd_item::barrier(sycl::access::fence_space::local_space) for better
+performance, if there is no access to global memory.
+"
+2,"The workgroup size passed to the SYCL kernel may exceed the limit.
+To get the device limit, query info::device::max_work_group_size. Adjust the
+workgroup size if needed.
+"
+3,"The generated code assumes that ""&g_odata[0]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_add"" with ""dpct::atomic_fetch_add<int,
+sycl::access::address_space::local_space>"".
+"
+4,"The generated code assumes that ""&g_odata[1]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_sub"" with ""dpct::atomic_fetch_sub<int,
+sycl::access::address_space::local_space>"".
+"
+5,"The generated code assumes that ""&g_odata[2]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_max"" with ""dpct::atomic_fetch_max<int,
+sycl::access::address_space::local_space>"".
+"
+6,"The generated code assumes that ""&g_odata[3]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_min"" with ""dpct::atomic_fetch_min<int,
+sycl::access::address_space::local_space>"".
+"
+7,"The generated code assumes that ""&g_odata[4]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_and"" with ""dpct::atomic_fetch_and<int,
+sycl::access::address_space::local_space>"".
+"
+8,"The generated code assumes that ""&g_odata[5]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_or"" with ""dpct::atomic_fetch_or<int,
+sycl::access::address_space::local_space>"".
+"
+9,"The generated code assumes that ""&g_odata[6]"" points to the
+global memory address space. If it points to a local memory address space,
+replace ""dpct::atomic_fetch_xor"" with ""dpct::atomic_fetch_xor<int,
+sycl::access::address_space::local_space>"".
+"
